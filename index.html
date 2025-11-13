@@ -156,7 +156,7 @@
 
 <footer>
   مع تحيات حملة المرشح المحاسب محمد حسن المغربي - مرشح مجلس النواب 2025 رقم 13<br />
-</footer>
+  </footer>
 
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
@@ -213,14 +213,15 @@
     return filteredResults;
   }
 
+  // إضافة حقل المسلسل في البطاقة الظاهرة بعد البحث
   function createResultItem(item) {
     return `
       <div class="result-item" tabindex="0" data-serial="${item.Serial}">
         <h3>${item.Name}</h3>
+        <p>رقم المسلسل: ${item.Serial}</p>
         <p>رقم اللجنة: ${item.Lagna}</p>
         <p>اسم المدرسة: ${item.School}</p>
         <p>عنوان المدرسة: ${item.Address}</p>
-
         <form class="phone-form" onsubmit="return false;">
           <input type="tel" placeholder="أدخل رقم هاتفك" aria-label="رقم الهاتف" required />
           <button type="submit">موافق</button>
@@ -241,15 +242,15 @@
       const resultItem = e.target.closest('.result-item');
       const voterData = {
         name: resultItem.querySelector('h3').textContent,
-        committee: resultItem.querySelector('p:nth-of-type(1)').textContent.replace('رقم اللجنة: ', ''),
-        school: resultItem.querySelector('p:nth-of-type(2)').textContent.replace('اسم المدرسة: ', ''),
-        Address: resultItem.querySelector('p:nth-of-type(3)').textContent.replace('عنوان المدرسة: ', ''),
-        serial: resultItem.dataset.serial,
+        serial: resultItem.querySelector('p:nth-of-type(1)').textContent.replace('رقم المسلسل: ', ''),
+        committee: resultItem.querySelector('p:nth-of-type(2)').textContent.replace('رقم اللجنة: ', ''),
+        school: resultItem.querySelector('p:nth-of-type(3)').textContent.replace('اسم المدرسة: ', ''),
+        Address: resultItem.querySelector('p:nth-of-type(4)').textContent.replace('عنوان المدرسة: ', ''),
         phone: phone
       };
 
       try {
-        const response = await fetch('https://n8n.101488.xyz/webhook/maghraby', {
+        const response = await fetch('https://n8n.101488.xyz/webhook-test/maghraby', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -284,4 +285,3 @@
 
 </body>
 </html>
-
